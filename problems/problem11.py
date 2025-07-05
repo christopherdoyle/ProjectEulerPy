@@ -24,6 +24,7 @@ INPUT = """
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 """
 
+
 def parse_input(s: str) -> list[int]:
     return [int(x) for x in s.strip().split() if x != ""]
 
@@ -38,7 +39,10 @@ def find_largest_right_product(
     largest = 0
     for i in range(0, len(xs)):
         # note: doesn't consider diagonals wrapping round - unclear if this is allowed!
-        idxs = [i + (n * ((vertical_offset * grid_width) + horizontal_offset)) for n in range(0, n_items)]
+        idxs = [
+            i + (n * ((vertical_offset * grid_width) + horizontal_offset))
+            for n in range(0, n_items)
+        ]
         if idxs[-1] >= len(xs):
             continue
         largest = max(largest, prod(xs[i] for i in idxs))

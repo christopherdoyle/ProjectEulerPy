@@ -40,7 +40,7 @@ def largest_adjacent_product(x: str, n: int):
         seq_len = len(sequence)
         for left_index in range(0, seq_len - n + 1):
             right_index = left_index + n
-            subsequence = sequence[left_index: right_index]
+            subsequence = sequence[left_index:right_index]
             assert len(subsequence) == n
             product = reduce(mul, (int(x) for x in subsequence), 1)
             largest = max(largest, product)

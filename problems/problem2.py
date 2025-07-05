@@ -1,5 +1,6 @@
 # Even Fibonacci Numbers
 
+
 def fib(a, b):
     yield a, b
     yield from fib(b, a + b)

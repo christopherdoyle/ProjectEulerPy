@@ -1,5 +1,6 @@
 # Largest Palindrome Product
 
+
 def is_palindrome(x: int) -> bool:
     s = str(x)
     return s == s[::-1]

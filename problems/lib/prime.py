@@ -27,7 +27,7 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
 
     for i in range(2, math.isqrt(n) + 1):
         if a[i - 2]:
-            j = i ** 2
+            j = i**2
             while j <= n:
                 a[j - 2] = False
                 j += i
