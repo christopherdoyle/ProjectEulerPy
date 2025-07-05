@@ -34,3 +34,6 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
 
     result = [i for i in range(2, n + 1) if a[i - 2]]
     return result
+
+
+# def nth_prime(n: int) -> int:
