@@ -64,3 +64,5 @@ def nth_prime(n: int) -> int:
             if len(found_primes) == n:
                 return i
         i += 2
+
+    raise ValueError(f"Failed to find {n}-th prime")
