@@ -1,5 +1,4 @@
-from problems.lib.prime import sieve_of_eratosthenes
+from problems.lib.prime import nth_prime
 
 
-primes = sieve_of_eratosthenes(1_000_000)
-print(primes[10000])
+print(nth_prime(10001))
