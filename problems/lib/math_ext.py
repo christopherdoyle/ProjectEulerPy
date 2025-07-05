@@ -1,3 +1,6 @@
+from functools import reduce
+from operator import mul
+
 
 def gcd(a, b):
     while b != 0:
@@ -7,3 +10,7 @@ def gcd(a, b):
 
 def lcm(a, b):
     return a * b // gcd(a, b)
+
+
+def prod(xs) -> int:
+    return reduce(mul, xs, 1)

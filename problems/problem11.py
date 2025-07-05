@@ -1,4 +1,5 @@
 # Largest Product in a Grid
+from problems.lib.math_ext import prod
 
 INPUT = """
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -27,12 +28,39 @@ def parse_input(s: str) -> list[int]:
     return [int(x) for x in s.strip().split() if x != ""]
 
 
-def find_largest_diagonal_product(
+def find_largest_right_product(
     xs: list[int],
-    diag_size: int,
+    n_items: int,
     grid_width: int,
+    vertical_offset: int,
+    horizontal_offset: int,
 ) -> int:
-    pass
+    largest = 0
+    for i in range(0, len(xs)):
+        # note: doesn't consider diagonals wrapping round - unclear if this is allowed!
+        idxs = [i + (n * ((vertical_offset * grid_width) + horizontal_offset)) for n in range(0, n_items)]
+        if idxs[-1] >= len(xs):
+            continue
+        largest = max(largest, prod(xs[i] for i in idxs))
+    return largest
 
 
-print(find_largest_diagonal_product(parse_input(INPUT), 4, 20))
+def main():
+    xs = parse_input(INPUT)
+    n_items = 4
+    grid_width = 20
+
+    right_diag = find_largest_right_product(xs, n_items, grid_width, 1, 1)
+    left_diag = find_largest_right_product(xs, n_items, grid_width, 1, -1)
+    vertical = find_largest_right_product(xs, n_items, grid_width, 1, 0)
+    horizontal = find_largest_right_product(xs, n_items, grid_width, 0, 1)
+
+    print(f"Max right diag: {right_diag}")
+    print(f"Max left diag: {left_diag}")
+    print(f"Max vertical: {vertical}")
+    print(f"Max horizontal: {horizontal}")
+    print(f"Overall max: {max(right_diag, left_diag, vertical, horizontal)}")
+
+
+if __name__ == "__main__":
+    main()
