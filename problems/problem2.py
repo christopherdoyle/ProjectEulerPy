@@ -1,4 +1,5 @@
 # Even Fibonacci Numbers
+from problems.lib import cli, main_wrapper
 
 
 def fib(a, b):
@@ -6,6 +7,7 @@ def fib(a, b):
     yield from fib(b, a + b)
 
 
+@main_wrapper
 def main():
     fib_gen = fib(1, 2)
     accumulator = 0
@@ -16,8 +18,8 @@ def main():
             accumulator += b
         a, b = next(fib_gen)
 
-    print(accumulator)
+    return accumulator
 
 
 if __name__ == "__main__":
-    main()
+    cli()

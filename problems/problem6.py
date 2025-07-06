@@ -1,4 +1,5 @@
 # Sum Square Difference
+from problems.lib import cli, main_wrapper
 
 
 def sum_of_squares(n):
@@ -10,4 +11,10 @@ def square_of_sum(n):
     return sum_to_n**2
 
 
-print(abs(sum_of_squares(100) - square_of_sum(100)))
+@main_wrapper
+def main():
+    return abs(sum_of_squares(100) - square_of_sum(100))
+
+
+if __name__ == "__main__":
+    cli()

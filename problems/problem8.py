@@ -2,6 +2,8 @@
 from functools import reduce
 from operator import mul
 
+from problems.lib import cli, main_wrapper
+
 INPUT_DIGIT = """
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
@@ -48,4 +50,10 @@ def largest_adjacent_product(x: str, n: int):
     return largest
 
 
-print(largest_adjacent_product(INPUT_DIGIT, 13))
+@main_wrapper
+def main():
+    return largest_adjacent_product(INPUT_DIGIT, 13)
+
+
+if __name__ == "__main__":
+    cli()

@@ -1,5 +1,10 @@
 # Highly Divisible Triangular Number
+import logging
 import math
+
+from problems.lib.problem import cli, main_wrapper
+
+logger = logging.getLogger(__name__)
 
 
 def count_factors(n: int) -> int:
@@ -13,6 +18,7 @@ def count_factors(n: int) -> int:
     return n_factors
 
 
+@main_wrapper
 def main():
     i = 0
     i_triangle = 0
@@ -21,9 +27,9 @@ def main():
         i_triangle += i
         factors = count_factors(i_triangle)
         if factors > 500:
-            print(f"Triangular number {i}, {i_triangle}, has {factors} factors")
+            logger.info(f"Triangular number {i}, {i_triangle}, has {factors} factors")
             break
 
 
 if __name__ == "__main__":
-    main()
+    cli()

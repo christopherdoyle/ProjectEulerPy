@@ -1,5 +1,11 @@
 # Largest Product in a Grid
+import logging
+
 from problems.lib.math_ext import prod
+from problems.lib import cli, main_wrapper
+
+
+logger = logging.getLogger(__name__)
 
 INPUT = """
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -49,6 +55,7 @@ def find_largest_right_product(
     return largest
 
 
+@main_wrapper
 def main():
     xs = parse_input(INPUT)
     n_items = 4
@@ -59,12 +66,12 @@ def main():
     vertical = find_largest_right_product(xs, n_items, grid_width, 1, 0)
     horizontal = find_largest_right_product(xs, n_items, grid_width, 0, 1)
 
-    print(f"Max right diag: {right_diag}")
-    print(f"Max left diag: {left_diag}")
-    print(f"Max vertical: {vertical}")
-    print(f"Max horizontal: {horizontal}")
-    print(f"Overall max: {max(right_diag, left_diag, vertical, horizontal)}")
+    logger.info(f"Max right diag: {right_diag}")
+    logger.info(f"Max left diag: {left_diag}")
+    logger.info(f"Max vertical: {vertical}")
+    logger.info(f"Max horizontal: {horizontal}")
+    logger.info(f"Overall max: {max(right_diag, left_diag, vertical, horizontal)}")
 
 
 if __name__ == "__main__":
-    main()
+    cli()
