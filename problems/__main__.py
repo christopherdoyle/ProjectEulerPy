@@ -18,6 +18,6 @@ parser.add_argument(
 parsed_args = parser.parse_args()
 problem_number = parsed_args.problem
 
-module_name = f"problems.problem{problem_number}"
+module_name = f"problems.problem{problem_number:04d}"
 __import__(module_name, fromlist=["main"])
 cli(module_name)
