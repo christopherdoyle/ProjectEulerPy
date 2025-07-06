@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 
 from functools import wraps
@@ -8,12 +9,37 @@ logger = logging.getLogger(__name__)
 REGISTERED_MAINS = {}
 
 
+def try_parse_problem_number_from_module(module: str) -> int | None:
+    patt = re.compile(r"^problems\.problem(\d{4})$")
+    if match := patt.match(module):
+        int_str = match.group(1)
+        return int(int_str.lstrip("0"))
+
+
+def try_parse_problem_number_from_file(file: str) -> int | None:
+    patt = re.compile(r"^.*problems[/\\]problem(\d{4})\.py$")
+    if match := patt.match(file):
+        int_str = match.group(1)
+        return int(int_str.lstrip("0"))
+
+
+def try_parse_problem_number_from_fn(fn):
+    if fn.__module__ == "__main__":
+        return try_parse_problem_number_from_file(fn.__globals__["__file__"])
+    else:
+        return try_parse_problem_number_from_module(fn.__module__)
+
+
 def _wrap_main_fn(fn, description):
     @wraps(fn)
     def fn_(*a, **kw):
         t_start = time.time()
         if description is not None:
             logger.info(f"Running problem: '{description}'")
+
+        if (problem := try_parse_problem_number_from_fn(fn)) is not None:
+            logger.info(f"Problem URL: https://projecteuler.net/problem={problem}")
+
         result = fn(*a, **kw)
         t_end = time.time()
         total_time = t_end - t_start
