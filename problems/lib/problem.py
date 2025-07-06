@@ -8,10 +8,12 @@ logger = logging.getLogger(__name__)
 REGISTERED_MAINS = {}
 
 
-def main_wrapper(fn):
+def _wrap_main_fn(fn, description):
     @wraps(fn)
     def fn_(*a, **kw):
         t_start = time.time()
+        if description is not None:
+            logger.info(f"Running problem: '{description}'")
         result = fn(*a, **kw)
         t_end = time.time()
         total_time = t_end - t_start
@@ -20,8 +22,27 @@ def main_wrapper(fn):
             logger.info(f"Result: {result}")
         return result
 
-    REGISTERED_MAINS[fn.__module__] = fn_
     return fn_
+
+
+def main_wrapper(arg):
+    if callable(arg):
+        # If the argument is a callable, treat it as the main function
+        description = None
+        fn = arg
+        fn_ = _wrap_main_fn(fn, description)
+        REGISTERED_MAINS[fn.__module__] = fn_
+        return fn_
+    else:
+        # Otherwise, treat it as a description for the main function
+        description = arg
+
+        def decorator(fn):
+            fn_ = _wrap_main_fn(fn, description)
+            REGISTERED_MAINS[fn.__module__] = fn_
+            return fn_
+
+        return decorator
 
 
 class ColorFormatter(logging.Formatter):

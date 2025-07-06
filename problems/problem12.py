@@ -1,4 +1,3 @@
-# Highly Divisible Triangular Number
 import logging
 import math
 
@@ -18,7 +17,7 @@ def count_factors(n: int) -> int:
     return n_factors
 
 
-@main_wrapper
+@main_wrapper("Highly Divisible Triangular Number")
 def main():
     i = 0
     i_triangle = 0
