@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import logging
 from typing import Generic, TypeVar
+
+logger = logging.getLogger(__name__)
 
 
 T = TypeVar("T")
@@ -29,4 +32,5 @@ def _max_path_sum(node, result):
 
 def max_path_sum(node: Node[T]) -> T:
     """Finds the maximum sum of a path down the entire tree."""
+    logger.info("Finding maximum path in tree")
     return _max_path_sum(node, 0)

@@ -1,4 +1,8 @@
+import logging
+
 from problems.lib import cli, main_wrapper, tree
+
+logger = logging.getLogger(__name__)
 
 PROBLEM_DATA = """
 75
@@ -20,6 +24,7 @@ PROBLEM_DATA = """
 
 
 def parse_problem_into_tree(problem_data: str):
+    logger.info("Parsing problem into tree")
     int_data = (map(int, line.split()) for line in problem_data.strip().splitlines())
     node_triangle = [[tree.Node(val) for val in row] for row in int_data]
     # Link nodes to their children
@@ -28,6 +33,7 @@ def parse_problem_into_tree(problem_data: str):
             node_triangle[i][j].left = node_triangle[i + 1][j]
             node_triangle[i][j].right = node_triangle[i + 1][j + 1]
     # Return the root node
+    logger.info("Finished parsing tree")
     return node_triangle[0][0]
 
 

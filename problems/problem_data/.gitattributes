@@ -1,0 +1,1 @@
+0067_triangle.txt filter=lfs diff=lfs merge=lfs -text
