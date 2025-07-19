@@ -14,3 +14,13 @@ def lcm(a, b):
 
 def prod(xs) -> int:
     return reduce(mul, xs, 1)
+
+
+def big_sum_digits(x: int) -> int:
+    # avoiding str, because.
+    def digits(n):
+        while n:
+            n, r = divmod(n, 10)
+            yield r
+
+    return sum(digits(x))

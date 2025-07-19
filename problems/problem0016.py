@@ -1,14 +1,5 @@
 from problems.lib import cli, main_wrapper
-
-
-def big_sum_digits(x: int) -> int:
-    # avoiding str, because.
-    def digits(n):
-        while n:
-            n, r = divmod(n, 10)
-            yield r
-
-    return sum(digits(x))
+from problems.lib.math_ext import big_sum_digits
 
 
 @main_wrapper("Power Digit Sum")
