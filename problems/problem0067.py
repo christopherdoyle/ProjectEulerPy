@@ -4,8 +4,15 @@ from problems.lib import cli, main_wrapper
 from problems import problem_data
 
 
-def readlines_reverse(filepath, encoding="utf-8", chunk_size=4096):
+def ident(line):
+    return line
+
+
+def readlines_reverse(filepath, encoding="utf-8", chunk_size=4096, line_fn=None):
     """Yields lines from a file in reverse order."""
+    if line_fn is None:
+        line_fn = ident
+
     with open(filepath, "rb") as f:
         # start at the end of the file and read upwards in chunks
         f.seek(0, os.SEEK_END)
@@ -21,10 +28,17 @@ def readlines_reverse(filepath, encoding="utf-8", chunk_size=4096):
             # keep the first (possibly incomplete) line in buffer
             buffer = lines[0]
             for line in reversed(lines[1:]):
-                yield line.decode(encoding)
+                yield line_fn(line.decode(encoding))
         # yield anything left in the buffer
         if buffer:
-            yield buffer.decode(encoding)
+            yield line_fn(buffer.decode(encoding))
+
+
+def parse_line(line: str) -> list[int]:
+    if not line.strip():
+        return []
+    result = list(map(int, line.split(" ")))
+    return result
 
 
 @main_wrapper
@@ -34,20 +48,20 @@ def main():
     # rely on triangle shape, and traverse bottom up, summing the max
     # as we go (O(N))
     triangle_last_row = None
-    for row in readlines_reverse(problem_fpath):
-        if not row.strip():
+    for row in readlines_reverse(problem_fpath, line_fn=parse_line):
+        if not row:
             continue
-        row_data = map(int, row.split(" "))
+
         if triangle_last_row is None:
             # first row case (only happens once)
-            triangle_last_row = list(row_data)
+            triangle_last_row = row
             continue
 
         # add a new row to triangle by summing from the largest of
         # the 2 children in the previous row (relies on triangle shape)
         triangle_last_row = [
             x + max(triangle_last_row[col_i], triangle_last_row[col_i + 1])
-            for col_i, x in enumerate(row_data)
+            for col_i, x in enumerate(row)
         ]
 
     # we have summed all the way to the top
