@@ -43,7 +43,7 @@ def _wrap_main_fn(fn, description):
         result = fn(*a, **kw)
         t_end = time.time()
         total_time = t_end - t_start
-        logger.debug(f"Main function '{fn.__name__}' took {total_time:.2f} seconds")
+        logger.debug(f"Main function '{fn.__name__}' took {total_time:.6f} seconds")
         if result is not None:
             logger.info(f"Result: {result}")
         return result

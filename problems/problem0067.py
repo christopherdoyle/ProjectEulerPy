@@ -1,5 +1,30 @@
+import os
+
 from problems.lib import cli, main_wrapper
 from problems import problem_data
+
+
+def readlines_reverse(filepath, encoding="utf-8", chunk_size=4096):
+    """Yields lines from a file in reverse order."""
+    with open(filepath, "rb") as f:
+        # start at the end of the file and read upwards in chunks
+        f.seek(0, os.SEEK_END)
+        position = f.tell()
+        buffer = b""
+        while position > 0:
+            read_size = min(chunk_size, position)
+            position -= read_size
+            f.seek(position)
+            chunk = f.read(read_size)
+            buffer = chunk + buffer
+            lines = buffer.split(b"\n")
+            # keep the first (possibly incomplete) line in buffer
+            buffer = lines[0]
+            for line in reversed(lines[1:]):
+                yield line.decode(encoding)
+        # yield anything left in the buffer
+        if buffer:
+            yield buffer.decode(encoding)
 
 
 @main_wrapper
@@ -9,7 +34,7 @@ def main():
     # rely on triangle shape, and traverse bottom up, summing the max
     # as we go (O(N))
     triangle_last_row = None
-    for row in reversed(problem_fpath.read_text().splitlines()):
+    for row in readlines_reverse(problem_fpath):
         if not row.strip():
             continue
         row_data = map(int, row.split(" "))
