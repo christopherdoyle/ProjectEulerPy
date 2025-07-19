@@ -8,28 +8,26 @@ def main():
 
     # rely on triangle shape, and traverse bottom up, summing the max
     # as we go (O(N))
-    triangle = []
+    triangle_last_row = None
     for row in reversed(problem_fpath.read_text().splitlines()):
-        if row == "":
+        if not row.strip():
             continue
         row_data = map(int, row.split(" "))
-        if not triangle:
+        if triangle_last_row is None:
             # first row case (only happens once)
-            triangle.append(list(row_data))
+            triangle_last_row = list(row_data)
             continue
 
         # add a new row to triangle by summing from the largest of
         # the 2 children in the previous row (relies on triangle shape)
-        triangle.append(
-            [
-                x + max(triangle[-1][col_i], triangle[-1][col_i + 1])
-                for col_i, x in enumerate(row_data)
-            ]
-        )
+        triangle_last_row = [
+            x + max(triangle_last_row[col_i], triangle_last_row[col_i + 1])
+            for col_i, x in enumerate(row_data)
+        ]
 
     # we have summed all the way to the top
-    assert len(triangle[-1]) == 1, "Triange not triangle shaped"
-    result = triangle[-1][0]
+    assert len(triangle_last_row) == 1, "Triange not triangle shaped"
+    result = triangle_last_row[0]
     return result
 
 
