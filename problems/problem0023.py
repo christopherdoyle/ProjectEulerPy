@@ -25,15 +25,15 @@ def main():
     logger.info(f"Found {len(available_abundant_numbers)} abundant numbers")
 
     logger.info("Finding abundant pairs in range")
-    abundant_pairs = set()
+    is_abundant_pairs = [0] * 21824
     for i, a1 in enumerate(available_abundant_numbers):
         for a2 in available_abundant_numbers[i:]:
             if (x := a1 + a2) <= 21823:
-                abundant_pairs.add(x)
+                is_abundant_pairs[x] = 1
             else:
                 break
 
-    return sum(i for i in range(1, 21823 + 1) if i not in abundant_pairs)
+    return sum(i for i, is_pair in enumerate(is_abundant_pairs) if not is_pair)
 
 
 if __name__ == "__main__":
