@@ -2,7 +2,14 @@ import math
 
 from functools import reduce
 from operator import mul
-from typing import Literal, Iterator
+from typing import Literal, Iterator, Iterable
+
+
+def fib(a, b):
+    current_a, current_b = a, b
+    while True:
+        yield current_a, current_b
+        current_a, current_b = current_b, current_a + current_b
 
 
 def gcd(a, b):
@@ -69,8 +76,19 @@ def factorial(x: int):
     return result
 
 
-def digits_to_int(digits):
+def digits_to_int(digits: Iterable[int]) -> int:
     result = 0
     for d in digits:
         result = result * 10 + d
     return result
+
+
+def count_digits(x: int) -> int:
+    if x == 0:
+        return 1
+    count = 0
+    n = abs(x)
+    while n:
+        n //= 10
+        count += 1
+    return count

@@ -1,10 +1,6 @@
 # Even Fibonacci Numbers
 from problems.lib import cli, main_wrapper
-
-
-def fib(a, b):
-    yield a, b
-    yield from fib(b, a + b)
+from problems.lib.math_ext import fib
 
 
 @main_wrapper
