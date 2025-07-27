@@ -59,3 +59,18 @@ def properness(x: int) -> Literal[-1, 0, 1]:
         return 1
     else:
         return 0
+
+
+def factorial(x: int):
+    # recursion is foolish
+    result = 1
+    for i in range(1, x + 1):
+        result *= i
+    return result
+
+
+def digits_to_int(digits):
+    result = 0
+    for d in digits:
+        result = result * 10 + d
+    return result
